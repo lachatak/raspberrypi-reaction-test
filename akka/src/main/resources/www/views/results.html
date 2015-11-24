@@ -1,0 +1,55 @@
+<div class="container">
+
+    <div class="col-md-6">
+        <div ng-include="'views/heading.html'"></div>
+
+        <div ng-show="waitingStartSignal">
+            <span>Waiting Raspberry Pi Start button to be pushed...</span>
+        </div>
+        <div ng-hide="disableRegistration();">
+            <span>New use is registering...</span>
+        </div>
+        <div ng-show="gameInProgress">
+            <span>Game is in progress...</span>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <p class="lead">Results:</p>
+        <p>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="15%">Rank</th>
+                <th width="40%">Name</th>
+                <th width="30%">Score</th>
+                <th width="15%">Tries</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="result in leaderBoard | orderBy:'-bestScore'" ng-click="showDetails[$index] = !showDetails[$index]">
+                <td>
+                    <span>{{ $index + 1 }}</span>
+                </td>
+                <td class="truncated">
+                    <span>{{ result.name }}</span>
+                </td>
+                <td>
+                    <span>{{ result.bestScore }}</span>
+                    <div ng-if="result.results.length > 1 && showDetails[$index]">
+                        <span><strong>All results:</strong></span>
+                        <ol>
+                            <li ng-repeat="singleResult in result.results | orderBy:'-score'">
+                               <span>{{singleResult.score}}</span>
+                           </li>
+                        </ol>
+                    </div>
+                </td>
+                <td>
+                    <span>{{ result.results.length }}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
