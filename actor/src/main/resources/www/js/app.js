@@ -97,10 +97,6 @@ webClient.controller('Controller', function ($scope, $location, $log) {
         return $scope.waitingStartSignal || $scope.gameInProgress;
     };
 
-    $scope.showCurrentResult = function () {
-        return typeof $scope.currentResult.nickName !== "undefined";
-    };
-
     $scope.emotion = function () {
         if($scope.currentResult.score < 600) return "What to say. Maybe next time.";
         else if ($scope.currentResult.score < 800)return "Not bad but you can do more!"
