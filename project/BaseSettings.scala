@@ -4,7 +4,7 @@ import sbt._
 
 object BaseSettings {
 
-  val RASPBERRY_PI_IP = "192.168.1.239"
+  val RASPBERRY_PI_IP = "172.18.43.77"
 
   lazy val javaagent = "-javaagent:" + System.getProperty("user.home") + "/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.8.7.jar"
 
