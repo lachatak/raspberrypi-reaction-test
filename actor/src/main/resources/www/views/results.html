@@ -36,11 +36,12 @@
                 </td>
                 <td>
                     <span>{{ result.bestScore }}</span>
-                    <div ng-if="result.results.length > 1 && showDetails[$index]">
+                    <div ng-if="showDetails[$index]">
                         <span><strong>All results:</strong></span>
                         <ol>
-                            <br ng-repeat="singleResult in result.results | orderBy:'-score'">
+                            <li ng-repeat="singleResult in result.results | orderBy:'-score'">
                                <span>{{singleResult.score}} points</span></br>
+                               <span>{{singleResult.average}} ms average</span></br>
                                <span>{{singleResult.failures}} failures</span></br>
                                <span>{{singleResult.missed}} missed</span>
                            </li>

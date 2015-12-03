@@ -102,13 +102,13 @@ webClient.controller('Controller', function ($scope, $location, $log) {
     };
 
     $scope.emotion = function () {
-        if($scope.currentResult.score < 200) return "What to say. Maybe next time.";
-        else if ($scope.currentResult.score < 400)return "Not bad but you can do more!"
-        else if ($scope.currentResult.score < 700)return "Nice one."
+        if($scope.currentResult.score < 600) return "What to say. Maybe next time.";
+        else if ($scope.currentResult.score < 800)return "Not bad but you can do more!"
+        else if ($scope.currentResult.score < 900)return "Nice one."
         else if ($scope.currentResult.score < 1000)return "Congratulations!"
-        else if ($scope.currentResult.score < 1300)return "Boooom! This is how it goes!"
-        else if ($scope.currentResult.score < 1600)return "Unbeatable!"
-        else if ($scope.currentResult.score < 2000)return "God mode!"
+        else if ($scope.currentResult.score < 1200)return "Boooom! This is how it goes!"
+        else if ($scope.currentResult.score < 1400)return "Unbeatable!"
+        else if ($scope.currentResult.score < 1700)return "God mode!"
         else return "How did you do this??!!"
     };
 
