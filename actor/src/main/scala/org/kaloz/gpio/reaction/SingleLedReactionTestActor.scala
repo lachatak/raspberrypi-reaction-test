@@ -16,12 +16,12 @@ import scalaz.Scalaz._
 
 class SingleLedReactionTestActor(pinController: PinController, reactionLedPulseLength: Int) extends FSM[SingleLedTestState, SingleLedTestStateData] with ActorLogging {
 
-  private val WAIT_OFFSET_IN_MILLIS = 1000
-  private val WAIT_OFFSET_RANDOM_IN_MILLIS = 2000
+  private val WAIT_OFFSET_IN_MILLIS = 1500
+  private val WAIT_OFFSET_RANDOM_IN_MILLIS = 1500
 
   private val reactionLeds = List(BCM_19("RedLed"), BCM_13("GreenLed"), BCM_20("BlueLed")).map(pinController.digitalOutputPin(_))
   private val reactionButtons = List(BCM_21("RedLedButton"), BCM_23("GreenLedButton"), BCM_24("BlueLedButton")).map(pinController.digitalInputPin(_))
-  reactionButtons.foreach(_.setDebounce(900))
+  reactionButtons.foreach(_.setDebounce(1300))
 
   startWith(WaitingStartSignal, SingleLedTestStateData())
 

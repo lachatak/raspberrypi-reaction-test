@@ -34,10 +34,17 @@ class ReactionTestSessionControllerActor(pinController: PinController, singleLed
 
   when(WaitingSingleLedTestFinish) {
     case Event(SingleLedReactionTestResult(reactionTime, reaction), state@ReactionTestSessionStateData(Some(user), _, Some(parent), _)) =>
-      val newState = state.addReactionTime(reactionTime, reaction)
-      val reactionPoints = newState.reactionTimes.sum + newState.numberOfFailures * wrongReactionPenalty
-      if (reaction == Failure) log.info(s"Penalty is applied! Wrong button was pushed!!")
-      log.info(s"Current state: reaction -> $reaction - reactionTime -> $reactionTime ms, reactionPoints -> $reactionPoints, reactionThreshold -> $reactionThreshold, failures -> ${newState.numberOfFailures}")
+      val calculatedReactionTime = reaction match {
+        case Missed => reactionLedPulseLength
+        case Failure =>
+          log.info(s"Penalty is applied! Wrong button was pushed!!")
+          wrongReactionPenalty + reactionTime
+        case Successful => reactionTime
+      }
+
+      val newState = state.addReactionTime(calculatedReactionTime, reaction)
+      val reactionPoints = newState.reactionTimes.sum
+      log.info(s"Current state: reaction -> $reaction - reactionTime -> $calculatedReactionTime ms, reactionPoints -> $reactionPoints, reactionThreshold -> $reactionThreshold, failures -> ${newState.numberOfFailures}")
       progressIndicatorLed.setPwm(reactionPoints / 100)
       if (reactionPoints <= reactionThreshold) {
         startSingleLedTest()
