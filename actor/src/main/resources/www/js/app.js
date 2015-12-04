@@ -28,6 +28,7 @@ webClient.controller('Controller', function ($scope, $location, $log) {
                         break;
                     case "leaderBoard":
                         $scope.leaderBoard = groupByName(data.leaderBoard);
+                        $scope.leader = getLeader($scope.leaderBoard);
                         break;
                 }
             });
@@ -72,6 +73,18 @@ webClient.controller('Controller', function ($scope, $location, $log) {
             ret.push(grouped[group]);
         }
         return ret;
+    }
+
+    function getLeader(grouppedResults) {
+        var leader;
+        var max = -1;
+        for(var i = 0; i < grouppedResults.length; i++) {
+          if (grouppedResults[i].bestScore > max) {
+            max = grouppedResults[i].bestScore;
+            leader = grouppedResults[i];
+          }
+        }
+        return leader;
     }
 
     $scope.user = {};

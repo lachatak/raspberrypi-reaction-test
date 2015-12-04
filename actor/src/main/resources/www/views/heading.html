@@ -24,5 +24,12 @@
     <img src="http://www.techweekeurope.co.uk/wp-content/uploads/2015/02/Sky-logo-600x374.png" width="50%">
     <img src="http://www.theinquirer.net/IMG/225/266225/sky-now-tv-set-top-box-and-remote-540x334.jpg?1447389896" width="49%">
 </p>
-<p class="lead"><h3>Are you faster than light? Sure?</h3></p>
+<p class="lead">
+    <h3>
+        <span>Are you faster than </span>
+        <span ng-if="leader" style="font: italic bold; color: green">{{ leader.nickName }}</span>
+        <span ng-if="!leader">light</span>
+        <span>? Sure?</span>
+    </h3>
+</p>
 <p class="lead" ng-show="showCurrentResult();"><h3>{{ currentResult.nickName }} achieved {{ currentResult.score }} points... {{ emotion() }}</h3></p>
