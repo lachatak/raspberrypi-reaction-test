@@ -28,6 +28,7 @@ webClient.controller('Controller', function ($scope, $location, $log) {
                         break;
                     case "leaderBoard":
                         $scope.leaderBoard = groupByName(data.leaderBoard);
+                        $scope.leader = getLeader($scope.leaderBoard);
                         break;
                 }
             });
@@ -74,6 +75,18 @@ webClient.controller('Controller', function ($scope, $location, $log) {
         return ret;
     }
 
+    function getLeader(grouppedResults) {
+        var leader;
+        var max = -1;
+        for(var i = 0; i < grouppedResults.length; i++) {
+          if (grouppedResults[i].bestScore > max) {
+            max = grouppedResults[i].bestScore;
+            leader = grouppedResults[i];
+          }
+        }
+        return leader;
+    }
+
     $scope.user = {};
     $scope.currentResult = {};
     $scope.leaderBoard = [];
@@ -95,6 +108,10 @@ webClient.controller('Controller', function ($scope, $location, $log) {
 
     $scope.disableRegistration = function () {
         return $scope.waitingStartSignal || $scope.gameInProgress;
+    };
+
+    $scope.showCurrentResult = function () {
+        return typeof $scope.currentResult.nickName !== "undefined";
     };
 
     $scope.emotion = function () {
