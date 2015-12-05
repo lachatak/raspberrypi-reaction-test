@@ -44,7 +44,7 @@ class WebSocketActor(reactionTestController: ActorRef, reactionTestSessionContro
       case WaitingSingleLedTestFinish => sink ! gameInProgressMessage
     }
 
-    def publishCurrentResult(result:TestResult): Unit = sink ! currentResultMessage(result)
+    def publishCurrentResult(result: TestResult): Unit = sink ! currentResultMessage(result)
 
     {
       case ReactionTestSessionStateChangedEvent(state) => updateState(state)
@@ -58,6 +58,7 @@ class WebSocketActor(reactionTestController: ActorRef, reactionTestSessionContro
         val json = parse(jsonString)
         (json \ "type").extractOpt[String] map (_ match {
           case "user" => reactionTestSessionController ! AssignUserToReactionTestSessionCommand((json \ "user").extract[User])
+          case "remove" => reactionTestController ! RemoveReactionTestResultCommand((json \ "id").extract[String])
         })
       }
     }

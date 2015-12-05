@@ -26,20 +26,21 @@ object Library {
   val akkaSlf4j = "com.typesafe.akka" %% "akka-slf4j" % Version.akka
   val akkaTestkit = "com.typesafe.akka" %% "akka-testkit" % Version.akka
   val akkaPersistence = "com.typesafe.akka" %% "akka-persistence-experimental" % Version.akkaPersistence
+  val akkaHttp = "com.typesafe.akka" %% "akka-http-experimental" % Version.akkaHttp
   val mongoPersitence = "com.github.ironfish" %% "akka-persistence-mongo-casbah" % Version.mongoPersitence
   val jodaTime = "joda-time" % "joda-time" % Version.jodaTime
   val config = "com.typesafe" % "config" % Version.config
   val scalazCore = "org.scalaz" %% "scalaz-core" % Version.scalazCore
-  val mockito = "org.mockito" % "mockito-core" % Version.mockito
-  val scalaTest = "org.scalatest" %% "scalatest" % Version.scalaTest
-  val pi4jDevice = "com.pi4j" % "pi4j-device" % Version.pi4j
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % Version.scalaLogging
   val logBack = "ch.qos.logback" % "logback-classic" % Version.logBack
   val rxScala = "io.reactivex" %% "rxscala" % Version.rxScala
+  val pi4jDevice = "com.pi4j" % "pi4j-device" % Version.pi4j
   val pi4jClientCore = "org.kaloz.pi4j.client" % "core" % Version.pi4jClient
   val pi4jClientRemote = "org.kaloz.pi4j.client" %  "remote-client" % Version.pi4jClient
-  val akkaHttp = "com.typesafe.akka" %% "akka-http-experimental" % Version.akkaHttp
+  val pi4jClientConsole = "org.kaloz.pi4j.client" %  "console-client" % Version.pi4jClient
   val json4s = "org.json4s" %% "json4s-native" % Version.json4s
+  val mockito = "org.mockito" % "mockito-core" % Version.mockito
+  val scalaTest = "org.scalatest" %% "scalatest" % Version.scalaTest
 
 
 }
@@ -48,28 +49,17 @@ object Dependencies {
 
   import Library._
 
-  val gpio = deps(
-    config,
-    jodaTime,
-    scalazCore,
-    pi4jClientRemote,
-    pi4jDevice,
-    scalaLogging,
-    logBack,
-    mockito % "test",
-    akkaTestkit % "test",
-    scalaTest % "test"
-  )
-
   val actor = deps(
     config,
     jodaTime,
     akkaActor,
+    akkaSlf4j,
     akkaPersistence,
     akkaHttp,
     mongoPersitence,
     scalazCore,
     pi4jClientRemote,
+    pi4jClientConsole,
     pi4jDevice,
     scalaLogging,
     logBack,

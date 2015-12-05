@@ -11,6 +11,8 @@ package object gpio {
 
   case class ReactionTestState(testResults: List[TestResult] = List.empty) {
     def update(testResult: TestResult) = copy(testResult :: testResults)
+
+    def remove(id: String) = copy(testResults.filterNot(_.result.id == id))
   }
 
   case class TestResult(user: User, result: Result)

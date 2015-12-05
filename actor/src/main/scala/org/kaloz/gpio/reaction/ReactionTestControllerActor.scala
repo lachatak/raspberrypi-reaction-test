@@ -27,20 +27,32 @@ class ReactionTestControllerActor(pinController: PinController, reactionTestSess
       log.info(s"Snapshot has been loaded with ${reactionTestState.testResults.size} test results!")
   }
 
-  def updateState(evt: ReactionTestResultArrivedEvent): Unit = {
-    reactionTestState = reactionTestState.update(evt.testResult)
-    saveSnapshot(reactionTestState)
+  def updateState(evt: Event): Unit = evt match {
+    case ReactionTestResultArrivedEvent(testResult) =>
+      reactionTestState = reactionTestState.update(testResult)
+      saveSnapshot(reactionTestState)
 
-    log.info(s"Result for ${evt.testResult.user.nickName} has been persisted --> ${evt.testResult.result.id}!")
-    log.info(s"Final score is ${evt.testResult.result.score} --> ${evt.testResult.result.iterations} iterations - ${evt.testResult.result.average} ms avg response time - ${evt.testResult.result.std} std")
+      log.info(s"Result for ${testResult.user.nickName} has been persisted --> ${testResult.result.id}!")
+      log.info(s"Final score is ${testResult.result.score} --> ${testResult.result.iterations} iterations - ${testResult.result.average} ms avg response time - ${testResult.result.std} std")
 
-    context.system.eventStream.publish(evt)
-    context.system.eventStream.publish(ReactionTestResultsUpdatedEvent(reactionTestState.testResults))
-    initializeDefaultButtons()
+      context.system.eventStream.publish(evt)
+      context.system.eventStream.publish(ReactionTestResultsUpdatedEvent(reactionTestState.testResults))
+      initializeDefaultButtons()
+
+    case ReactionTestResultRemovedEvent(testId) =>
+      reactionTestState = reactionTestState.remove(testId)
+      saveSnapshot(reactionTestState)
+
+      log.info(s"Test '$testId' has been removed!")
+
+      context.system.eventStream.publish(ReactionTestResultsUpdatedEvent(reactionTestState.testResults))
+
+    case _ =>
   }
 
   override def receiveCommand: Receive = LoggingReceive {
     case SaveReactionTestResultCommand(testResult) => persist(ReactionTestResultArrivedEvent(testResult))(updateState)
+    case RemoveReactionTestResultCommand(testId) => persist(ReactionTestResultRemovedEvent(testId))(updateState)
     case ReactionTestAbortedEvent(userOption) =>
       userOption.fold(log.info(s"Test is aborted without user data..")) { user => log.info(s"Test is aborted for user $user") }
       initializeDefaultButtons()
@@ -67,14 +79,20 @@ object ReactionTestControllerActor {
 
   case class SaveReactionTestResultCommand(testResult: TestResult)
 
+  case class RemoveReactionTestResultCommand(id: String)
+
   case object ReactionTestResultsRequest
 
   case class ReactionTestResultsResponse(testResults: List[TestResult])
 
-  case class ReactionTestResultArrivedEvent(testResult: TestResult)
+  sealed trait Event
 
-  case class ReactionTestResultsUpdatedEvent(testResults: List[TestResult])
+  case class ReactionTestResultArrivedEvent(testResult: TestResult) extends Event
 
-  case class ReactionTestAbortedEvent(user: Option[User])
+  case class ReactionTestResultRemovedEvent(testId: String) extends Event
+
+  case class ReactionTestResultsUpdatedEvent(testResults: List[TestResult]) extends Event
+
+  case class ReactionTestAbortedEvent(user: Option[User]) extends Event
 
 }
