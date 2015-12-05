@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="col-md-6">
+        <div ng-include="'views/heading.html'"></div>
+        <p>
+        </p>
+    </div>
+    <div class="col-md-6">
+
+        <p class="lead">Remove id</p>
+        <form ng-submit="removeId()">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Id"
+                       ng-model="remove.id"
+                       required>
+            </div>
+            <button class="btn btn-info btn-block" type="submit">Remove</button>
+        </form>
+        </p>
+    </div>
+</div>

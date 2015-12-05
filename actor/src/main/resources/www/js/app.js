@@ -90,6 +90,7 @@ webClient.controller('Controller', function ($scope, $location, $log) {
     }
 
     $scope.user = {};
+    $scope.remove = {};
     $scope.currentResult = {};
     $scope.leaderBoard = [];
     $scope.waitingStartSignal = false;
@@ -114,6 +115,16 @@ webClient.controller('Controller', function ($scope, $location, $log) {
 
     $scope.showCurrentResult = function () {
         return typeof $scope.currentResult.nickName !== "undefined";
+    };
+
+    $scope.removeId = function () {
+        var message = angular.toJson({
+            type: 'remove',
+            id: $scope.remove.id
+        });
+        $log.info(message);
+        webSocket.send(message);
+        $scope.remove = {};
     };
 
     $scope.emotion = function () {
@@ -151,6 +162,9 @@ webClient.config(function ($routeProvider) {
         })
         .when('/results', {
             templateUrl: 'views/results.html'
+        })
+        .when('/remove', {
+            templateUrl: 'views/remove.html'
         })
         .otherwise({
             redirectTo: '/start'
