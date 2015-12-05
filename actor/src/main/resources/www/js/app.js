@@ -13,6 +13,7 @@ webClient.controller('Controller', function ($scope, $location, $log) {
                     case "waitingStartSignal":
                         $scope.waitingStartSignal = true;
                         $scope.gameInProgress = false;
+                        $scope.user = {};
                         break;
                     case "openUserRegistration":
                         $scope.waitingStartSignal = false;
@@ -22,6 +23,7 @@ webClient.controller('Controller', function ($scope, $location, $log) {
                     case "gameInProgress":
                         $scope.waitingStartSignal = false;
                         $scope.gameInProgress = true;
+                        $scope.user = {};
                         break;
                     case "currentResult":
                         $scope.currentResult = data.currentResult;
@@ -126,14 +128,19 @@ webClient.controller('Controller', function ($scope, $location, $log) {
     };
 
     $scope.register = function(){
-        $scope.formDisabled = true;
-        $log.info($scope.user)
-        var message = angular.toJson({
-            type: 'user',
-            user: $scope.user
-        });
-        $scope.user = {};
-        webSocket.send(message);
+        if (!$scope.user.email || !$scope.user.nickName) {
+            $scope.registerError = 'Please enter your nick name and email address';
+        } else {
+            $scope.registerError = undefined;
+            $scope.formDisabled = true;
+            $log.info($scope.user)
+            var message = angular.toJson({
+                type: 'user',
+                user: $scope.user
+            });
+            $scope.user = {};
+            webSocket.send(message);
+        }
     };
 });
 

@@ -19,3 +19,8 @@ td.truncated {
 .overlay-message{
     z-index:1002;
 }
+
+.result-table {
+  height: 400px;
+  overflow-y: auto;
+}

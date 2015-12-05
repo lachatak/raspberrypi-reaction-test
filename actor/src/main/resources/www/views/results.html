@@ -16,43 +16,44 @@
 
     <div class="col-md-6">
         <p class="lead">Results:</p>
-        <p>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th width="15%">Rank</th>
-                <th width="40%">Nick Name</th>
-                <th width="30%">Score</th>
-                <th width="15%">Tries</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="result in leaderBoard | orderBy:'-bestScore'" ng-click="showDetails[$index] = !showDetails[$index]">
-                <td>
-                    <span>{{ $index + 1 }}</span>
-                </td>
-                <td class="truncated">
-                    <span>{{ result.nickName }}</span>
-                </td>
-                <td>
-                    <span>{{ result.bestScore }}</span>
-                    <div ng-if="showDetails[$index]">
-                        <span><strong>All results:</strong></span>
-                        <ol>
-                            <li ng-repeat="singleResult in result.results | orderBy:'-score'">
-                               <span>{{singleResult.score}} points</span></br>
-                               <span>{{singleResult.average}} ms average</span></br>
-                               <span>{{singleResult.failures}} failures</span></br>
-                               <span>{{singleResult.missed}} missed</span>
-                           </li>
-                        </ol>
-                    </div>
-                </td>
-                <td>
-                    <span>{{ result.results.length }}</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="result-table">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th width="15%">Rank</th>
+                    <th width="40%">Nick Name</th>
+                    <th width="30%">Score</th>
+                    <th width="15%">Tries</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="result in leaderBoard | orderBy:'-bestScore'" ng-click="showDetails[$index] = !showDetails[$index]">
+                    <td>
+                        <span>{{ $index + 1 }}</span>
+                    </td>
+                    <td class="truncated">
+                        <span>{{ result.nickName }}</span>
+                    </td>
+                    <td>
+                        <span>{{ result.bestScore }}</span>
+                        <div ng-if="showDetails[$index]">
+                            <span><strong>All results:</strong></span>
+                            <ol>
+                                <li ng-repeat="singleResult in result.results | orderBy:'-score'">
+                                   <span>{{singleResult.score}} points</span></br>
+                                   <span>{{singleResult.average}} ms average</span></br>
+                                   <span>{{singleResult.failures}} failures</span></br>
+                                   <span>{{singleResult.missed}} missed</span>
+                               </li>
+                            </ol>
+                        </div>
+                    </td>
+                    <td>
+                        <span>{{ result.results.length }}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
