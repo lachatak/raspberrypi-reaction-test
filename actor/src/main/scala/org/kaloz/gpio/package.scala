@@ -9,6 +9,7 @@ import scala.math.BigDecimal.RoundingMode
 
 package object gpio {
 
+  @SerialVersionUID(6553429589742512624L)
   case class ReactionTestState(testResults: List[TestResult] = List.empty) {
     def update(testResult: TestResult) = copy(testResult :: testResults)
 
